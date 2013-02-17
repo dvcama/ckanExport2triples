@@ -1,5 +1,5 @@
 {
-	"catalogInfo" : [ "<http://data.opendataday.it/resource/dati.firenze> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/dcat#Catalog>" ],
+	"catalogInfo" : [ "<http://data.opendataday.it/resource/dati.firenze>\t<http://purl.org/dc/elements/1.1/title>\t\"Catalogo OpenData del Comune di Firenze\"", "<http://data.opendataday.it/resource/dati.firenze> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/dcat#Catalog>" ],
 	"packagesCsvUrl" : "http://opendata.comune.fi.it/materiali/open_data/lista_dataset_url.csv",
 	"resultFileName" : "dati.firenze.n3",
 	"resourceUri" : {
@@ -14,27 +14,51 @@
 		"groupName" : "resources",
 		"fields" : [ "download_url", "formato" ]
 	},
-	"datasetInfo" : [ "<http://data.opendataday.it/resource/dati.firenze>  <http://www.w3.org/ns/dcat#dataset> <{{URI}}>" ],
+	"staticInfo" : [ "<http://data.opendataday.it/resource/dati.firenze>  <http://www.w3.org/ns/dcat#dataset> <{{URI}}>" ],
 	"datasetMap" : {
 		"nome" : {
 			"uri" : "<http://purl.org/dc/elements/1.1/title>",
 			"type" : "string"
 		},
 		"url" : {
-			"uri" : "<http://purl.org/dc/terms/isReferencedBy>",
+			"uri" : "<http://xmlns.com/foaf/0.1/homepage>",
 			"type" : "uri"
 		},
-		"tags" : {
-			"uri" : "<http://www.w3.org/ns/dcat#keyword>",
-			"splitForChar" : ",",
-			"type" : "uri",
+		"data_rilascio" : {
+			"uri" : "<http://purl.org/dc/terms/created>",
+			"type" : "string"
+		},
+		"autore" : {
+			"uri" : "<http://purl.org/dc/terms/publisher>",
+			"type" : "string"
+		},
+		"categoria" : {
+			"uri" : "<http://www.w3.org/ns/dcat#theme>",
+			"type" : "map",	 
+			"hasOwnUri" : true,
+			"valueAsUri" : true,
 			"prefix" : "http://data.opendataday.it/resource/tag/",
 			"forceLowerCase" : true,
-			"toUri" : true
+			"staticInfo" : ["<{{URI}}>\t<http://purl.org/dc/elements/1.1/creator>\t<http://data.opendataday.it/resource/dati.firenze>", "<{{URI}}>\t<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>\t<http://www.w3.org/2004/02/skos/core#Concept>" , "<{{URI}}>\t<http://purl.org/dc/elements/1.1/title>\t\"{{VALUE}}\"" ],				"toUri":true
+		},
+		"tags" : {
+			"splitForChar" : ",",
+			"uri" : "<http://www.w3.org/ns/dcat#keyword>",
+			"type" : "map",	 
+			"hasOwnUri" : true,
+			"valueAsUri" : true,
+			"prefix" : "http://data.opendataday.it/resource/tag/",
+			"forceLowerCase" : true,
+			"staticInfo" : ["<{{URI}}>\t<http://purl.org/dc/elements/1.1/creator>\t<http://data.opendataday.it/resource/dati.firenze>", "<{{URI}}>\t<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>\t<http://www.w3.org/2004/02/skos/core#Concept>" , "<{{URI}}>\t<http://purl.org/dc/elements/1.1/title>\t\"{{VALUE}}\"" ],
+			"toUri":true,	
+			"dataCleaner":{
+				"find" :"^.*\\(theme\\)[ .]*",
+				"replace" : ""
+			}
 		},
 		"type" : "map",
 		"licenza" : {
-			"uri" : "<http://purl.org/dc/terms/rights>",
+			"uri" : "<http://purl.org/dc/terms/licenses>",
 			"type" : "uri"
 		},
 		"resources" : {
