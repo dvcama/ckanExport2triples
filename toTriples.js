@@ -175,10 +175,10 @@ function staticInfo(resourceUri, originalValue, jConfig) {
  
 function writeRow(row, resultFileName) {
 	if ($.trim(row) != '') {
-		fs.appendFile(resultFileName, row, function(err) {
+		fs.appendFileSync(resultFileName, row,"utf8", function(err) {
 			if (err){
 				console.log(err);
-			}
+			} 
 		});
 	}
 }
