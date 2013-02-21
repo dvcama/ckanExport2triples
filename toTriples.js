@@ -57,7 +57,7 @@ function start(jConfig) {
 				"encoding" : "UTF-8",
 				"columns" : true
 			}).on('record', function(row, index) {
-				
+
 				var resJ = JSON.parse(JSON.stringify(row));
 				if (jConfig.groupBy) {
 					/*
@@ -149,7 +149,7 @@ function generateUri(resourceUri, jConfig) {
 			resourceUriSubstitutor = [ resourceUriSubstitutor ];
 		}
 		for ( var int2 = 0; int2 < resourceUriSubstitutor.length; int2++) {
-			if (resourceUriSubstitutor[int2]  && resourceUriSubstitutor[int2].find) {
+			if (resourceUriSubstitutor[int2] && resourceUriSubstitutor[int2].find) {
 				resourceUri = resourceUri.replace(new RegExp(resourceUriSubstitutor[int2].find), resourceUriSubstitutor[int2].replace);
 			}
 		}
@@ -172,13 +172,13 @@ function staticInfo(resourceUri, originalValue, jConfig) {
 	}
 	return result;
 }
- 
+
 function writeRow(row, resultFileName) {
 	if ($.trim(row) != '') {
-		fs.appendFileSync(resultFileName, row,"utf8", function(err) {
-			if (err){
+		fs.appendFileSync(resultFileName, row, "utf8", function(err) {
+			if (err) {
 				console.log(err);
-			} 
+			}
 		});
 	}
 }
@@ -199,7 +199,7 @@ function createRow(resourceUri, key, params, resJ) {
 			row = "";
 			for ( var int = 0; int < resJ[key].length; int++) {
 				var val = $.trim(resJ[key][int]);
-				val = dataCleaner(val,params);
+				val = dataCleaner(val, params);
 				var originalValue = val;
 				if (params.forceLowerCase) {
 					val = val.toLowerCase();
@@ -209,6 +209,9 @@ function createRow(resourceUri, key, params, resJ) {
 					val = uriCleaner(val);
 				}
 				val = val.replace(/"/gi, '\\"');
+				if (val == '') {
+					continue;
+				}
 				if (params.hasOwnUri) {
 					row += "<" + resourceUri + ">\t" + params.uri + "\t<" + (params.valueAsUri ? (params.prefix ? params.prefix : "") + val : (resourceUri + (params.hasOwnUri ? (params.suffix ? params.suffix : "") + int : ""))) + ">.\n";
 					row += staticInfo((params.valueAsUri ? (params.prefix ? params.prefix : "") + val : (resourceUri + (params.hasOwnUri ? (params.suffix ? params.suffix : "") + int : ""))), originalValue, params);
@@ -232,6 +235,9 @@ function createRow(resourceUri, key, params, resJ) {
 						val = uriCleaner(val);
 					}
 					val = val.replace(/"/gi, '\\"');
+					if (val == '') {
+						continue;
+					}
 					if (params.type == 'string') {
 						if (val.match(/\n/)) {
 							val = '""' + val + '""';
@@ -267,6 +273,9 @@ function uriCleaner(uri) {
 	}
 	if (uri.length > 60) {
 		uri = uri.substring(0, 50);
+	}
+	while (uri.length == uri.lastIndexOf("-")) {
+		uri = uri.substring(0, uri.lastIndexOf("-"));
 	}
 	return uri;
 }
